@@ -63,6 +63,7 @@ public class ForecastPreference extends Preference {
 		setLayoutResource(R.layout.forecast_view);
 	}
 
+	/*
 	@Override
 	public void onBindView(View v) {
 		super.onBindView(v);
@@ -132,4 +133,5 @@ public class ForecastPreference extends Preference {
 		mDayFourHigh.setText(b.getString("f4_temp_high"));
 		mDayFourLow.setText(b.getString("f4_temp_low"));
 	}
+	*/
 }

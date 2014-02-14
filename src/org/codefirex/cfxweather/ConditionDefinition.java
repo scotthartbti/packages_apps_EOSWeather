@@ -72,7 +72,7 @@ public class ConditionDefinition {
 			"isolated thundershowers",
 			"not available",
 	};
-	
+	/*
 	int[] conditionIcon = new int[] {
 			R.drawable.tornado,
 			R.drawable.heavy_rain,
@@ -131,6 +131,7 @@ public class ConditionDefinition {
 		if (code == -1) return R.drawable.sunny;
 		return conditionIcon[code];
 	}
+	*/
 
 	public String getConditionByCode(int code) {
 		return conditionArray[code];

@@ -24,12 +24,15 @@
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
     <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
 
-    <application android:label="Weather"
-            android:icon="@drawable/partly_cloudy" >
+    <application
+        android:label="Weather"
+        android:icon="@drawable/app_icon"
+        android:allowBackup="false"
+        android:persistent="true" >
         <activity android:name=".WeatherActivity"
             android:theme="@style/Theme.Settings"
             android:label="Weather"
-            android:icon="@drawable/partly_cloudy" >
+            android:icon="@drawable/app_icon" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />

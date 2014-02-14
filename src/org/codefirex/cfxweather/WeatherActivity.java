@@ -56,6 +56,7 @@ public class WeatherActivity extends PreferenceActivity implements
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME
 				| ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setTitle(TITLE);
+		actionBar.setDisplayHomeAsUpEnabled(true);
 
 //		mSettings = (PreferenceCategory) findPreference(SETTINGS_CATEGORY);
 
@@ -180,10 +181,13 @@ public class WeatherActivity extends PreferenceActivity implements
 			intent.putExtra(WeatherLocation.REFRESH_NOW, "refresh");
 			sendBroadcast(intent);
 			break;
+		case android.R.id.home:
+			finish();
+			break;
 		default:
 			break;
 		}
-		return true;
+		return super.onOptionsItemSelected(item);
 	}
 
 	@Override
