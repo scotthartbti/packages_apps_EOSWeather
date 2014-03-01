@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!-- Copyright (C) 2008 The Android Open Source Project
+<!--
+     Copyright (C) 2008 The Android Open Source Project
 
      Licensed under the Apache License, Version 2.0 (the "License");
      you may not use this file except in compliance with the License.
@@ -15,39 +16,49 @@
 -->
 
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-        package="org.codefirex.cfxweather" >
+    package="org.codefirex.cfxweather" >
 
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION" />
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED" />
-    <uses-permission android:name="android.permission.BROADCAST_STICKY"/>
+    <uses-permission android:name="android.permission.BROADCAST_STICKY" />
 
     <application
-        android:label="Weather"
-        android:icon="@drawable/app_icon"
         android:allowBackup="false"
-        android:persistent="true" >
-        <activity android:name=".WeatherActivity"
-            android:theme="@style/Theme.Settings"
+        android:icon="@drawable/app_icon"
+        android:label="Weather" >
+
+        <activity
+            android:name=".WeatherActivity"
+            android:icon="@drawable/app_icon"
             android:label="Weather"
-            android:icon="@drawable/app_icon" >
+            android:theme="@style/Theme.Settings" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
             </intent-filter>
         </activity>
 
-        <service android:name=".WeatherService" />
-        <service android:name=".WeatherLocation" />
+        <service android:name=".HttpService" />
 
-        <receiver android:name=".WeatherReceiver">
+        <service
+            android:name=".WeatherService"
+            android:persistent="true" >
+        </service>
+
+        <receiver android:name=".BootReceiver" >
             <intent-filter>
-                <action android:name="cfx_query_weather_service" />
                 <action android:name="android.intent.action.BOOT_COMPLETED" />
-                <action android:name="android.net.conn.CONNECTIVITY_CHANGE" />
             </intent-filter>
         </receiver>
+
+        <provider
+            android:name=".WeatherProvider"
+            android:authorities="org.codefirex.cfxweather.icons;org.codefirex.cfxweather.data"
+            android:exported="true" >
+        </provider>
     </application>
+
 </manifest>

@@ -3,11 +3,15 @@ package org.codefirex.cfxweather;
 import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.content.BroadcastReceiver;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.ServiceConnection;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
+import android.os.Message;
 import android.preference.Preference;
 import android.preference.ListPreference;
 import android.preference.PreferenceActivity;
@@ -15,6 +19,7 @@ import android.preference.PreferenceCategory;
 import android.preference.PreferenceScreen;
 import android.text.Html;
 import android.text.method.LinkMovementMethod;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,12 +30,18 @@ import android.widget.Switch;
 import android.widget.TextView;
 
 import org.codefirex.cfxweather.R;
+import org.codefirex.cfxweather.WeatherService.WeatherBinder;
+import org.codefirex.utils.WeatherAdapter;
+import org.codefirex.utils.WeatherAdapter.WeatherListener;
 
 public class WeatherActivity extends PreferenceActivity implements
 		Preference.OnPreferenceChangeListener {
 
+	static final String TAG = "CFXWeatherActivity";
 	static final String TITLE = "Weather";
 	static final String SETTINGS_CATEGORY = "settings_category";
+	static final String CALLING_PACKAGE = "calling_package";
+	static final String NEEDS_BACK_ON_HOME = "needs_back_on_home";
 
 	MenuItem mRefreshItem;
 
@@ -41,8 +52,60 @@ public class WeatherActivity extends PreferenceActivity implements
 	ForecastPreference mForecast;
 	Preference mCredits;
 
-	IntentFilter mWeatherFilter;
-	BroadcastReceiver mWeatherReceiver;
+	WeatherBinder mBinder;
+	WeatherAdapter mWeatherAdapter;
+	WeatherListener mWeatherListener = new WeatherListener() {
+		@Override
+		public void onServiceStateChanged(int state) {
+			switch (state) {
+			case WeatherAdapter.STATE_ON:
+				toggleForecast(true);
+				enablePrefs(true);
+				invalidateOptionsMenu();
+				break;
+			case WeatherAdapter.STATE_OFF:
+				toggleForecast(false);
+				enablePrefs(false);
+				invalidateOptionsMenu();
+				break;
+			case WeatherAdapter.STATE_REFRESHING:
+				if (mRefreshItem != null) {
+					mRefreshItem.setActionView(R.layout.progress_spinner);
+					mRefreshItem.expandActionView();
+					enablePrefs(false);
+					new Handler().postDelayed(mCheckTimeout, TIMEOUT);
+				}
+				break;
+			case WeatherAdapter.STATE_SCALE:
+				mForecast.setWeatherInfo(mWeatherAdapter.getLastKnownWeather());
+				mForecast.invalidate();
+				break;
+			case WeatherAdapter.STATE_UPDATED:
+				if (mRefreshItem != null) {
+					new Handler().removeCallbacks(mCheckTimeout);
+					mRefreshItem.collapseActionView();
+					mRefreshItem.setActionView(null);
+				}
+				mForecast.setWeatherInfo(mWeatherAdapter.getLatestWeather());
+				mForecast.invalidate();
+				enablePrefs(WeatherPrefs.getEnabled(WeatherActivity.this));
+				break;
+			}
+		}
+	};	
+
+	ServiceConnection mWeatherConn = new ServiceConnection() {
+
+		@Override
+		public void onServiceConnected(ComponentName name, IBinder service) {
+			mBinder = (WeatherBinder) service;
+		}
+
+		@Override
+		public void onServiceDisconnected(ComponentName name) {
+			if (mBinder != null) mBinder = null;			
+		}		
+	};
 
 	static final long TIMEOUT = 1000 * 10;
 
@@ -52,25 +115,30 @@ public class WeatherActivity extends PreferenceActivity implements
 		super.onCreate(savedInstanceState);
 		addPreferencesFromResource(R.xml.weather_prefs);
 
+		Intent intent = getIntent();
+		boolean setBackOnHome = false;
+
+		if (null != intent.getStringExtra(NEEDS_BACK_ON_HOME)
+				&& "true".equals(intent.getStringExtra(NEEDS_BACK_ON_HOME))) {
+			setBackOnHome = true;
+		}
+
 		ActionBar actionBar = getActionBar();
 		actionBar.setDisplayOptions(ActionBar.DISPLAY_SHOW_HOME
 				| ActionBar.DISPLAY_SHOW_TITLE | ActionBar.DISPLAY_SHOW_CUSTOM);
 		actionBar.setTitle(TITLE);
 		actionBar.setDisplayHomeAsUpEnabled(true);
 
-//		mSettings = (PreferenceCategory) findPreference(SETTINGS_CATEGORY);
+		mSettings = (PreferenceCategory) findPreference(SETTINGS_CATEGORY);
 
 		Boolean isEnabled = WeatherPrefs.getEnabled(this);
 
 		mLocation = (ListPreference) findPreference("weather_location_mode");
 		mInterval = (ListPreference) findPreference("weather_interval");
-		mTempScale = (ListPreference)findPreference("weather_temp_scale");
+		mTempScale = (ListPreference) findPreference("weather_temp_scale");
 
 		mCredits = findPreference("credits_pref");
 
-		if (ForecastPreference.DEBUG) {
-			getPreferenceScreen().removePreference(mCredits);
-		} else {
 			mCredits.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
 
 				@Override
@@ -79,16 +147,9 @@ public class WeatherActivity extends PreferenceActivity implements
 					return true;
 				}
 			});
-		}
 
 		mForecast = (ForecastPreference) findPreference("weather_forecast");
 		mForecast.setSelectable(false);
-
-		if (ForecastPreference.DEBUG) {
-			getPreferenceScreen().removePreference(mForecast);
-		} else {
-		    toggleForecast(isEnabled);
-		}
 
 		mLocation.setValue(String.valueOf(WeatherPrefs.getLocationMode(this)));
 		mInterval.setValue(String.valueOf(WeatherPrefs.getInterval(this)));
@@ -112,62 +173,45 @@ public class WeatherActivity extends PreferenceActivity implements
 		mInterval.setOnPreferenceChangeListener(this);
 		mTempScale.setOnPreferenceChangeListener(this);
 
+		mWeatherAdapter = new WeatherAdapter(this, mWeatherListener);
+		mForecast.setWeatherInfo(mWeatherAdapter.getLatestWeather());
+
+		// initial state, we don't want a bunch of "unknown" showing
+		toggleForecast(isEnabled && !mWeatherAdapter.getLastKnownWeather().getCurrentText().equals("unknown"));
+
 		enablePrefs(isEnabled);
+	}
 
-		mWeatherFilter = new IntentFilter();
-		mWeatherFilter.addAction(WeatherService.WEATHER_ACTION);
-		mWeatherFilter.addAction(WeatherLocation.LOCATION_REFRESHING);
-
-		mWeatherReceiver = new BroadcastReceiver() {
-			@Override
-			public void onReceive(Context context, Intent intent) {
-				String action = intent.getAction();
-				if (action.equals(WeatherService.WEATHER_ACTION)) {
-					if (mRefreshItem != null) {
-						new Handler().removeCallbacks(mCheckTimeout);
-						mRefreshItem.collapseActionView();
-						mRefreshItem.setActionView(null);
-						// this is a hacky way to invalidate a preference view
-						if (!ForecastPreference.DEBUG) mForecast.setSummary(mForecast.getSummary() + " ");
-						enablePrefs(WeatherPrefs.getEnabled(WeatherActivity.this));
-					}
-				} else if (action.equals(WeatherLocation.LOCATION_REFRESHING)) {
-					if (mRefreshItem != null) {
-						mRefreshItem.setActionView(R.layout.progress_spinner);
-						mRefreshItem.expandActionView();
-						enablePrefs(false);
-						new Handler().postDelayed(mCheckTimeout, TIMEOUT);
-					}
-				}
-			}
-		};
+	private void sendMessageToService(int msg) {
+		if (mBinder != null) {
+			Message m = mBinder.getService().getMessage();
+			m.what = msg;
+			mBinder.getService().sendMessage(m);
+		}
 	}
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		getMenuInflater().inflate(R.menu.weather_menu, menu);
-
+		mRefreshItem = menu.findItem(R.id.action_refresh);
 		MenuItem mSwitchItem = menu.findItem(R.id.action_switch);
-		Switch s = (Switch)mSwitchItem.getActionView().findViewById(
+		Switch s = (Switch) mSwitchItem.getActionView().findViewById(
 				R.id.switchForActionBar);
 		s.setChecked(WeatherPrefs.getEnabled(this));
 		s.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
 					boolean isChecked) {
+				if (mRefreshItem != null) {
+					mRefreshItem.setEnabled(isChecked);
+					mRefreshItem.setVisible(isChecked);
+				}
 				WeatherPrefs.setEnabled(WeatherActivity.this, isChecked);
-				Intent intent = new Intent().setAction(WeatherReceiver.ACTION)
-						.putExtra(WeatherReceiver.ENABLED_CHANGED,
-								"enabled_changed");
-				sendBroadcast(intent);
-				toggleForecast(isChecked);
-				enablePrefs(isChecked);
-				invalidateOptionsMenu();
+				sendMessageToService(isChecked ? WeatherService.RESUME_SERVICE : WeatherService.PAUSE_SERVICE);
 			}
 		});
-
-		mRefreshItem = menu.findItem(R.id.action_refresh);
 		mRefreshItem.setEnabled(s.isChecked());
+		mRefreshItem.setVisible(s.isChecked());
 		return true;
 	}
 
@@ -176,10 +220,7 @@ public class WeatherActivity extends PreferenceActivity implements
 		switch (item.getItemId()) {
 		case R.id.action_refresh:
 			mRefreshItem = item;
-			Intent intent = new Intent();
-			intent.setAction(WeatherReceiver.ACTION);
-			intent.putExtra(WeatherLocation.REFRESH_NOW, "refresh");
-			sendBroadcast(intent);
+			sendMessageToService(WeatherService.REFRESH_NOW);
 			break;
 		case android.R.id.home:
 			finish();
@@ -191,15 +232,24 @@ public class WeatherActivity extends PreferenceActivity implements
 	}
 
 	@Override
+	public void onResume() {
+		super.onResume();
+		mForecast.setWeatherInfo(mWeatherAdapter.getLastKnownWeather());
+		mForecast.invalidate();
+	}
+
+	@Override
 	public void onStart() {
 		super.onStart();
-		registerReceiver(mWeatherReceiver, mWeatherFilter);
+		bindService(new Intent(this, WeatherService.class), mWeatherConn, Context.BIND_AUTO_CREATE);
+		mWeatherAdapter.startUpdates();
 	}
 
 	@Override
 	public void onStop() {
 		super.onStop();
-		unregisterReceiver(mWeatherReceiver);
+		unbindService(mWeatherConn);
+		mWeatherAdapter.stopUpdates();
 	}
 
 	@Override
@@ -207,10 +257,7 @@ public class WeatherActivity extends PreferenceActivity implements
 		if (preference.equals(mLocation)) {
 			String val = ((String) newValue).toString();
 			WeatherPrefs.setLocationMode(this, val);
-			Intent intent = new Intent()
-					.setAction(WeatherReceiver.ACTION)
-					.putExtra(WeatherLocation.LOCATION_MODE_CHANGED, "interval");
-			sendBroadcast(intent);
+			sendMessageToService(WeatherService.LOCATION_MODE_CHANGED);
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -226,9 +273,7 @@ public class WeatherActivity extends PreferenceActivity implements
 		} else if (preference.equals(mInterval)) {
 			String val = ((String) newValue).toString();
 			WeatherPrefs.setInterval(this, val);
-			Intent intent = new Intent().setAction(WeatherReceiver.ACTION)
-					.putExtra(WeatherLocation.INTERVAL_CHANGED, "interval");
-			sendBroadcast(intent);
+			sendMessageToService(WeatherService.INTERVAL_CHANGED);
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -244,9 +289,7 @@ public class WeatherActivity extends PreferenceActivity implements
 		} else if (preference.equals(mTempScale)) {
 			int val = Integer.parseInt(((String) newValue).toString());
 			WeatherPrefs.setDegreeType(this, val);
-			Intent intent = new Intent().setAction(WeatherReceiver.ACTION)
-					.putExtra(WeatherLocation.SCALE_CHANGED, "scale");
-			sendBroadcast(intent);
+			sendMessageToService(WeatherService.SCALE_CHANGED);
 			new Handler().postDelayed(new Runnable() {
 				@Override
 				public void run() {
@@ -277,7 +320,6 @@ public class WeatherActivity extends PreferenceActivity implements
 	}
 
 	private void toggleForecast(boolean enabled) {
-		if (ForecastPreference.DEBUG) return;
 		PreferenceScreen screen = getPreferenceScreen();
 		if (enabled) {
 			screen.addPreference(mForecast);
@@ -297,8 +339,7 @@ public class WeatherActivity extends PreferenceActivity implements
 		public void run() {
 			mRefreshItem.collapseActionView();
 			mRefreshItem.setActionView(null);
-			// this is a hacky way to invalidate a preference view
-			if (!ForecastPreference.DEBUG)mForecast.setSummary(mForecast.getSummary() + " ");
+			mForecast.invalidate();
 			enablePrefs(WeatherPrefs.getEnabled(WeatherActivity.this));
 		}
 	};
@@ -319,10 +360,10 @@ public class WeatherActivity extends PreferenceActivity implements
 
 		// have to maunally create buttons when AlertDialog has a custom view
 		Button ok = (Button) v.findViewById(R.id.button_ok);
-		ok.setOnClickListener(new View.OnClickListener() {			
+		ok.setOnClickListener(new View.OnClickListener() {
 			@Override
 			public void onClick(View v) {
-				dialog.dismiss();				
+				dialog.dismiss();
 			}
 		});
 

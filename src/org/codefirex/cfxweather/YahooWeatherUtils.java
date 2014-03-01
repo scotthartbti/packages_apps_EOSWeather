@@ -25,7 +25,8 @@ import org.apache.http.client.ClientProtocolException;
 import org.apache.http.client.HttpClient;
 import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.codefirex.cfxweather.WeatherInfo.ForecastInfo;
+import org.codefirex.utils.WeatherInfo;
+import org.codefirex.utils.WeatherInfo.ForecastInfo;
 import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.xml.sax.SAXException;
@@ -160,10 +161,7 @@ public class YahooWeatherUtils {
 							));
 			weatherInfo.setCurrentText(
 					currentConditionNode.getAttributes().getNamedItem("text").getNodeValue());
-			weatherInfo.setCurrentTempF(
-					Integer.parseInt(
-							currentConditionNode.getAttributes().getNamedItem("temp").getNodeValue()
-							));
+			weatherInfo.setCurrentTempF(currentConditionNode.getAttributes().getNamedItem("temp").getNodeValue());
 			weatherInfo.setCurrentConditionDate(
 					currentConditionNode.getAttributes().getNamedItem("date").getNodeValue());
 			
@@ -191,14 +189,8 @@ public class YahooWeatherUtils {
 				forecast1ConditionNode.getAttributes().getNamedItem("date").getNodeValue());
 		forecastInfo.setForecastDay(
 				forecast1ConditionNode.getAttributes().getNamedItem("day").getNodeValue());
-		forecastInfo.setForecastTempHighF(
-				Integer.parseInt(
-						forecast1ConditionNode.getAttributes().getNamedItem("high").getNodeValue()
-						));
-		forecastInfo.setForecastTempLowF(
-				Integer.parseInt(
-						forecast1ConditionNode.getAttributes().getNamedItem("low").getNodeValue()
-						));
+		forecastInfo.setForecastTempHighF(forecast1ConditionNode.getAttributes().getNamedItem("high").getNodeValue());
+		forecastInfo.setForecastTempLowF(forecast1ConditionNode.getAttributes().getNamedItem("low").getNodeValue());
 	}
 
     private WeatherInfo handleWeatherQuery(Context context, String... cityName){

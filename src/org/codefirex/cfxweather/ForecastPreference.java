@@ -1,8 +1,9 @@
 package org.codefirex.cfxweather;
 
 import org.codefirex.cfxweather.R;
+import org.codefirex.utils.WeatherInfo;
+
 import android.content.Context;
-import android.os.Bundle;
 import android.preference.Preference;
 import android.util.AttributeSet;
 import android.view.View;
@@ -10,7 +11,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 public class ForecastPreference extends Preference {
-	public static final boolean DEBUG = true;
+	public static final boolean DEBUG = false;
 
 	TextView mCurrentCity;
 	ImageView mCurrentWeatherIcon;
@@ -44,8 +45,8 @@ public class ForecastPreference extends Preference {
 	TextView mDayFourHigh;
 	TextView mDayFourLow;
 
-	ConditionDefinition mDefs = new ConditionDefinition();
 	Context mContext;
+	WeatherInfo mWeatherInfo;
 
 	public ForecastPreference(Context context) {
 		this(context, null);
@@ -63,19 +64,29 @@ public class ForecastPreference extends Preference {
 		setLayoutResource(R.layout.forecast_view);
 	}
 
-	/*
+	public void setWeatherInfo(WeatherInfo weatherInfo) {
+		mWeatherInfo = weatherInfo;
+	}
+
+	public void invalidate() {
+		setSummary(getSummary() + " ");
+	}
+
 	@Override
 	public void onBindView(View v) {
 		super.onBindView(v);
-		mCurrentWeatherIcon = (ImageView) v.findViewById(R.id.current_weather_icon);
+		mCurrentWeatherIcon = (ImageView) v
+				.findViewById(R.id.current_weather_icon);
 
 		mCurrentWeatherText = (TextView) v
 				.findViewById(R.id.current_weather_text);
-		
+
 		mCurrentCity = (TextView) v.findViewById(R.id.current_city);
 		mCurrentTemp = (TextView) v.findViewById(R.id.current_temperature);
-		mCurrentTempHigh = (TextView) v.findViewById(R.id.current_temperature_high);
-		mCurrentTempLow = (TextView) v.findViewById(R.id.current_temperature_low);
+		mCurrentTempHigh = (TextView) v
+				.findViewById(R.id.current_temperature_high);
+		mCurrentTempLow = (TextView) v
+				.findViewById(R.id.current_temperature_low);
 
 		mDayOne = (TextView) v.findViewById(R.id.day_one_day);
 		mDayOneWeather = (ImageView) v.findViewById(R.id.day_one_weather);
@@ -97,41 +108,51 @@ public class ForecastPreference extends Preference {
 		mDayFourHigh = (TextView) v.findViewById(R.id.day_four_high_text);
 		mDayFourLow = (TextView) v.findViewById(R.id.day_four_low_text);
 
-		setWeatherBundle(WeatherPrefs.getLatestWeatherBundle(v.getContext()));
-
+		if (mWeatherInfo != null)
+			updateResources();
 	}
 
-	void setWeatherBundle(Bundle b) {
-		mCurrentWeatherIcon.setImageResource(mDefs.getIconByCode(Integer.parseInt(b
-				.getString("current_code"))));
+	void updateResources() {
+		mCurrentWeatherIcon.setImageDrawable(WeatherInfo.getIconFromProvider(
+				mContext, mWeatherInfo.getCurrentCode()));
+		mCurrentWeatherText.setText(mWeatherInfo.getCurrentText());
+		mCurrentCity.setText(mWeatherInfo.getLocationCity());
+		mCurrentTemp.setText(String.valueOf(WeatherInfo.addSymbol(mWeatherInfo.getCurrentTemp())));
+		mCurrentTempHigh.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo1()
+				.getForecastHighTemp())));
+		mCurrentTempLow.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo1()
+				.getForecastLowTemp())));
 
-		mCurrentWeatherText.setText(b.getString("weather"));
+		mDayOne.setText(mWeatherInfo.getForecastInfo1().getForecastDay());
+		mDayOneWeather.setImageDrawable(WeatherInfo.getIconFromProvider(
+				mContext, mWeatherInfo.getForecastInfo1().getForecastCode()));
+		mDayOneHigh.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo1()
+				.getForecastHighTemp())));
+		mDayOneLow.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo1()
+				.getForecastLowTemp())));
 
-		mCurrentCity.setText(b.getString("city"));
-		mCurrentTemp.setText(b.getString("temp"));
-		mCurrentTempHigh.setText(b.getString("f1_temp_high"));
-		mCurrentTempLow.setText(b.getString("f1_temp_low"));
+		mDayTwo.setText(mWeatherInfo.getForecastInfo2().getForecastDay());
+		mDayTwoWeather.setImageDrawable(WeatherInfo.getIconFromProvider(
+				mContext, mWeatherInfo.getForecastInfo2().getForecastCode()));
+		mDayTwoHigh.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo2()
+				.getForecastHighTemp())));
+		mDayTwoLow.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo2()
+				.getForecastLowTemp())));
 
-		mDayOne.setText(b.getString("f1_day"));
-		mDayOneWeather.setImageResource(mDefs.getIconByCode(Integer.parseInt(b
-				.getString("f1_current_code"))));
-		mDayOneHigh.setText(b.getString("f1_temp_high"));
-		mDayOneLow.setText(b.getString("f1_temp_low"));
-		mDayTwo.setText(b.getString("f2_day"));
-		mDayTwoWeather.setImageResource(mDefs.getIconByCode(Integer.parseInt(b
-				.getString("f2_current_code"))));
-		mDayTwoHigh.setText(b.getString("f2_temp_high"));
-		mDayTwoLow.setText(b.getString("f2_temp_low"));
-		mDayThree.setText(b.getString("f3_day"));
-		mDayThreeWeather.setImageResource(mDefs.getIconByCode(Integer
-				.parseInt(b.getString("f3_current_code"))));
-		mDayThreeHigh.setText(b.getString("f3_temp_high"));
-		mDayThreeLow.setText(b.getString("f3_temp_low"));
-		mDayFour.setText(b.getString("f4_day"));
-		mDayFourWeather.setImageResource(mDefs.getIconByCode(Integer.parseInt(b
-				.getString("f4_current_code"))));
-		mDayFourHigh.setText(b.getString("f4_temp_high"));
-		mDayFourLow.setText(b.getString("f4_temp_low"));
+		mDayThree.setText(mWeatherInfo.getForecastInfo3().getForecastDay());
+		mDayThreeWeather.setImageDrawable(WeatherInfo.getIconFromProvider(
+				mContext, mWeatherInfo.getForecastInfo3().getForecastCode()));
+		mDayThreeHigh.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo3()
+				.getForecastHighTemp())));
+		mDayThreeLow.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo3()
+				.getForecastLowTemp())));
+
+		mDayFour.setText(mWeatherInfo.getForecastInfo4().getForecastDay());
+		mDayFourWeather.setImageDrawable(WeatherInfo.getIconFromProvider(
+				mContext, mWeatherInfo.getForecastInfo4().getForecastCode()));
+		mDayFourHigh.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo4()
+				.getForecastHighTemp())));
+		mDayFourLow.setText(WeatherInfo.addSymbol(String.valueOf(mWeatherInfo.getForecastInfo4()
+				.getForecastLowTemp())));
 	}
-	*/
 }
