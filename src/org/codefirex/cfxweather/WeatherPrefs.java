@@ -75,6 +75,7 @@ public class WeatherPrefs {
         .putString("country", b.getString("country"))
         .putString("date", b.getString("date"))
         .putString("weather", b.getString("weather"))
+        .putInt("temp_scale", b.getInt("temp_scale"))
         .putString("tempF", b.getString("tempF"))
         .putString("tempC", b.getString("tempC"))
         .putString("chill", b.getString("chill"))
@@ -136,6 +137,7 @@ public class WeatherPrefs {
         b.putString("country", getWeatherPrefs(ctx).getString("country", "unknown"));
         b.putString("date", getWeatherPrefs(ctx).getString("date", "unknown"));
         b.putString("weather", getWeatherPrefs(ctx).getString("weather", "unknown"));
+        b.putInt("temp_scale", getWeatherPrefs(ctx).getInt("temp_scale", DEGREE_F));
         b.putString("tempF", getWeatherPrefs(ctx).getString("tempF", "0"));
         b.putString("tempC", getWeatherPrefs(ctx).getString("tempC", "0"));
         b.putString("chillF", getWeatherPrefs(ctx).getString("chillF",  "0"));
@@ -227,6 +229,7 @@ public class WeatherPrefs {
         info.mLocationCountry = getWeatherPrefs(ctx).getString("country", "unknown");
         info.mLastBuildDate = getWeatherPrefs(ctx).getString("date", "unknown");
         info.mCurrentText = getWeatherPrefs(ctx).getString("weather", "unknown");
+        info.mDegreeScale = getWeatherPrefs(ctx).getInt("temp_scale", DEGREE_F);
         info.mCurrentTempF = getWeatherPrefs(ctx).getString("tempF", "0");
         info.mCurrentTempC = getWeatherPrefs(ctx).getString("tempC", "0");
         info.mWindChillF = getWeatherPrefs(ctx).getString("chillF",  "0");
@@ -283,6 +286,7 @@ public class WeatherPrefs {
         .putString("country", info.mLocationCountry)
         .putString("date", info.mLastBuildDate)
         .putString("weather", info.mCurrentText)
+        .putInt("temp_scale", info.mDegreeScale)
         .putString("tempF", String.valueOf(info.mCurrentTempF))
         .putString("tempC", String.valueOf(info.mCurrentTempC))
         .putString("chillF", info.mWindChillF)

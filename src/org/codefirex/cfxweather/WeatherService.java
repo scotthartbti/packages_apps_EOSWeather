@@ -135,7 +135,12 @@ public class WeatherService extends Service {
 			if (HttpService.RESULT_SUCCEED == code) {
 				sendAdapterBroadcast(WeatherAdapter.STATE_UPDATED);
 			} else if (HttpService.RESULT_FAIL == code) {
-
+				// we we're safe starting http service but something happened 
+				// during the http request. initiate fail alarm
+				if (mFailCount == 0) {
+					startFailAlarm();
+					mFailCount++;
+				}
 			}
 		}
 	};
@@ -229,7 +234,7 @@ public class WeatherService extends Service {
 	}
 
 	// used when service initialized to quickly get a location
-	private void sendFasttPosition() {
+	private void sendFastPosition() {
 		String bestProvider = mLocationManager.getBestProvider(new Criteria(),
 				true);
 		Location local = mLocationManager.getLastKnownLocation(bestProvider);

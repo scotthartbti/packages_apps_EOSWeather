@@ -30,17 +30,25 @@ public class HttpService extends IntentService {
 			Location location = (Location) intent
 					.getParcelableExtra(WeatherService.LOCATION_EXTRA);
 			if (location != null) {
+				int result = RESULT_FAIL;
+				ResultReceiver rec = intent.getParcelableExtra(RESULT_TAG);
 				String lat = String.valueOf(location.getLatitude());
 				String lon = String.valueOf(location.getLongitude());
-				WeatherInfo weatherInfo = yahooWeatherUtils.queryYahooWeather(
-						this, lat, lon);
-				weatherInfo.setCurrentScale(WeatherPrefs.getDegreeType(this));
-				WeatherPrefs.setPrefsFromInfo(this, weatherInfo);
-				ResultReceiver rec = intent.getParcelableExtra(RESULT_TAG);
-				if (rec != null) {
-					Bundle b = new Bundle();
-					b.putInt(RESULT_CODE_TAG, RESULT_SUCCEED);
-					rec.send(RESULT_CODE, b);
+				try {
+					WeatherInfo weatherInfo = yahooWeatherUtils
+							.queryYahooWeather(this, lat, lon);
+					weatherInfo.setCurrentScale(WeatherPrefs
+							.getDegreeType(this));
+					WeatherPrefs.setPrefsFromInfo(this, weatherInfo);
+					result = RESULT_SUCCEED;
+				} catch (Exception e) {
+					result = RESULT_FAIL;
+				} finally {
+					if (rec != null) {
+						Bundle b = new Bundle();
+						b.putInt(RESULT_CODE_TAG, result);
+						rec.send(RESULT_CODE, b);
+					}
 				}
 			}
 		}

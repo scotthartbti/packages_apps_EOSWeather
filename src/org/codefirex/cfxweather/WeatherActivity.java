@@ -192,12 +192,15 @@ public class WeatherActivity extends PreferenceActivity implements
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
+		Boolean isEnabled = WeatherPrefs.getEnabled(this);
 		getMenuInflater().inflate(R.menu.weather_menu, menu);
 		mRefreshItem = menu.findItem(R.id.action_refresh);
+		mRefreshItem.setEnabled(isEnabled);
+		mRefreshItem.setVisible(isEnabled);
 		MenuItem mSwitchItem = menu.findItem(R.id.action_switch);
 		Switch s = (Switch) mSwitchItem.getActionView().findViewById(
 				R.id.switchForActionBar);
-		s.setChecked(WeatherPrefs.getEnabled(this));
+		s.setChecked(isEnabled);
 		s.setOnCheckedChangeListener(new OnCheckedChangeListener() {
 			@Override
 			public void onCheckedChanged(CompoundButton buttonView,
@@ -210,8 +213,6 @@ public class WeatherActivity extends PreferenceActivity implements
 				sendMessageToService(isChecked ? WeatherService.RESUME_SERVICE : WeatherService.PAUSE_SERVICE);
 			}
 		});
-		mRefreshItem.setEnabled(s.isChecked());
-		mRefreshItem.setVisible(s.isChecked());
 		return true;
 	}
 
