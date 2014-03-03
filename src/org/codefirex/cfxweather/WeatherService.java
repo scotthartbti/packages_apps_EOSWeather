@@ -160,6 +160,7 @@ public class WeatherService extends Service {
 		mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		mEnabled = WeatherPrefs.getEnabled(this);
+		WeatherNotification notif = new WeatherNotification(this);
 		sendAdapterBroadcast(mEnabled ? WeatherAdapter.STATE_ON : WeatherAdapter.STATE_OFF);
 
 		// create pending intent to fire when alarm is triggered
@@ -176,6 +177,7 @@ public class WeatherService extends Service {
 			resetAlarm();
 			resetLocationListener();
 		}
+
 	}
 
 	private void resetLocationListener() {
