@@ -18,6 +18,7 @@
 */
 -->
 <resources>
+
     <string name="on">On</string>
     <string name="off">Off</string>
     <string name="cancel">Cancel</string>
@@ -56,5 +57,52 @@
     <string name="credits_icon_license">Used under the Creative Commons License</string>
     <string name="credits_weather_service">Weather Service</string>
     <string name="credits_yahoo">Powered by Yahoo!</string>
+
+    <!-- Condition strings based on condition code integer from yahoo servers
+         It seems yahoo servers only provide the forecast text in english
+         so we have to handle translations
+    -->
+    <string name="tornado">Tornado</string>
+    <string name="tropical_storm">Tropical storm</string>
+    <string name="hurricane">Hurricane</string>
+    <string name="severe_thunderstorms">Severe thunderstorms</string>
+    <string name="thunderstorms">Thunderstorms</string>
+    <string name="mixed_rain_snow">Mixed rain and snow</string>
+    <string name="mixed_rain_sleet">Mixed rain and sleet</string>
+    <string name="mixed_snow_sleet">Mixed snow and sleet</string>
+    <string name="freezing_drizzle">Freezing drizzle</string>
+    <string name="drizzle">Drizzle</string>
+    <string name="freezing_rain">Freezing rain</string>
+    <string name="showers">Showers</string>
+    <string name="snow_flurries">Snow flurries</string>
+    <string name="light_snow_showers">Light snow showers</string>
+    <string name="blowing_snow">Blowing snow</string>
+    <string name="snow">Snow</string>
+    <string name="hail">Hail</string>
+    <string name="sleet">Sleet</string>
+    <string name="dust">Dust</string>
+    <string name="foggy">Foggy</string>
+    <string name="haze">Haze</string>
+    <string name="smoky">Smoky</string>
+    <string name="blustery">Blustery</string>
+    <string name="windy">Windy</string>
+    <string name="cold">Cold</string>
+    <string name="cloudy">Cloudy</string>
+    <string name="mostly_cloudy">Mostly cloudy</string>
+    <string name="partly_cloudy">Partly cloudy</string>
+    <string name="clear">Clear</string>
+    <string name="sunny">Sunny</string>
+    <string name="fair">Fair</string>
+    <string name="mixed_rain_hail">Mixed rain and hail</string>
+    <string name="hot">Hot</string>
+    <string name="isolated_thunderstorms">Isolated thunderstorms</string>
+    <string name="scattered_thunderstorms">Scattered thunderstorms</string>
+    <string name="scattered_showers">Scattered showers</string>
+    <string name="heavy_snow">Heavy snow</string>
+    <string name="scattered_snow_showers">Scattered snow showers</string>
+    <string name="thundershowers">Thundershowers</string>
+    <string name="snow_showers">Snow showers</string>
+    <string name="isolated_thundershowers">Isolated thundershowers</string>
+    <string name="not_available">not available</string>
 
 </resources>

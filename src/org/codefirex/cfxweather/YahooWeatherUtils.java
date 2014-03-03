@@ -155,12 +155,11 @@ public class YahooWeatherUtils {
 			weatherInfo.setConditionLon(doc.getElementsByTagName("geo:long").item(0).getTextContent());
 			
 			Node currentConditionNode = doc.getElementsByTagName("yweather:condition").item(0);
-			weatherInfo.setCurrentCode(
-					Integer.parseInt(
-							currentConditionNode.getAttributes().getNamedItem("code").getNodeValue()
-							));
-			weatherInfo.setCurrentText(
-					currentConditionNode.getAttributes().getNamedItem("text").getNodeValue());
+			int currentCode = Integer.parseInt(currentConditionNode.getAttributes().getNamedItem("code").getNodeValue());
+			weatherInfo.setCurrentCode(currentCode);
+			weatherInfo.setCurrentText(WeatherProvider.getConditionText(mContext, currentCode));
+//			weatherInfo.setCurrentText(
+//					currentConditionNode.getAttributes().getNamedItem("text").getNodeValue());
 			weatherInfo.setCurrentTempF(currentConditionNode.getAttributes().getNamedItem("temp").getNodeValue());
 			weatherInfo.setCurrentConditionDate(
 					currentConditionNode.getAttributes().getNamedItem("date").getNodeValue());
