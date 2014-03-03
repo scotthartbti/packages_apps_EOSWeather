@@ -57,6 +57,7 @@
     <string name="credits_icon_license">Used under the Creative Commons License</string>
     <string name="credits_weather_service">Weather Service</string>
     <string name="credits_yahoo">Powered by Yahoo!</string>
+    <string name="credits_xml_name">XML parsing by zh-wang</string>
 
     <!-- Condition strings based on condition code integer from yahoo servers
          It seems yahoo servers only provide the forecast text in english

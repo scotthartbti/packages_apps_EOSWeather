@@ -359,6 +359,12 @@ public class WeatherActivity extends PreferenceActivity implements
 		linkView.setMovementMethod(LinkMovementMethod.getInstance());
 		linkView.setText(Html.fromHtml(str_links));
 
+		TextView xmlCredit = (TextView) v.findViewById(R.id.credit_xml_github);
+		String github_link = "<a href='https://github.com/zh-wang/YWeatherGetter4a'>YWeatherGetter4a on Github</a>";
+		xmlCredit.setLinksClickable(true);
+		xmlCredit.setMovementMethod(LinkMovementMethod.getInstance());
+		xmlCredit.setText(Html.fromHtml(github_link));
+
 		// have to maunally create buttons when AlertDialog has a custom view
 		Button ok = (Button) v.findViewById(R.id.button_ok);
 		ok.setOnClickListener(new View.OnClickListener() {
