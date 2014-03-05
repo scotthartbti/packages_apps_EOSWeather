@@ -34,7 +34,9 @@
             android:name=".WeatherActivity"
             android:icon="@drawable/app_icon"
             android:label="Weather"
-            android:theme="@style/Theme.Settings" >
+            android:theme="@style/Theme.Settings"
+            android:launchMode="singleTask"
+            android:excludeFromRecents="true" >
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />

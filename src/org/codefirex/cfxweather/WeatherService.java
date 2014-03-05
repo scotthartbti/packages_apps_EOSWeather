@@ -11,7 +11,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.location.Criteria;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
@@ -46,14 +45,12 @@ public class WeatherService extends Service {
 	private LocationManager mLocationManager;
 	private IntentFilter mFilter;
 	private PendingIntent mAlarmPending;
+	private WeatherNotification mNotification;
 	private boolean mEnabled = false;
 	private int mFailCount = 0;
-	private boolean mIsBooting = true;
 
 	private Binder mBinder = new WeatherBinder();
 
-	private static final double METERS_PER_MILE = 1609.34;
-	private static final float MINIMUM_DISTANCE_THRESHOLD = (float) (METERS_PER_MILE * 5);
 	private static final long MINUTE_MULTIPLE = (1000 * 60);
 
 	private LocationListener mNetworkLocationListener = new LocationListener() {
@@ -78,11 +75,6 @@ public class WeatherService extends Service {
 			String action = intent.getAction();
 			if (action.equals(ALARM_TICKED)) {
 				resetLocationListener();
-			} else if (action.equals(Intent.ACTION_SCREEN_OFF)) {
-//				cancelAlarm();
-			} else if (action.equals(Intent.ACTION_SCREEN_ON)) {
-//				resetAlarm();
-//				resetLocationListener();
 			}
 		}
 	};
@@ -160,7 +152,7 @@ public class WeatherService extends Service {
 		mLocationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
 		mEnabled = WeatherPrefs.getEnabled(this);
-		WeatherNotification notif = new WeatherNotification(this);
+		mNotification = new WeatherNotification(this);
 		sendAdapterBroadcast(mEnabled ? WeatherAdapter.STATE_ON : WeatherAdapter.STATE_OFF);
 
 		// create pending intent to fire when alarm is triggered
@@ -169,8 +161,6 @@ public class WeatherService extends Service {
 
 		mFilter = new IntentFilter();
 		mFilter.addAction(ALARM_TICKED);
-		mFilter.addAction(Intent.ACTION_SCREEN_ON);
-		mFilter.addAction(Intent.ACTION_SCREEN_OFF);
 
 		if (mEnabled) {
 			registerReceiver(mReceiver, mFilter);
@@ -235,14 +225,6 @@ public class WeatherService extends Service {
 						.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
 	}
 
-	// used when service initialized to quickly get a location
-	private void sendFastPosition() {
-		String bestProvider = mLocationManager.getBestProvider(new Criteria(),
-				true);
-		Location local = mLocationManager.getLastKnownLocation(bestProvider);
-		sendPosition(local);
-	}
-
 	// send coordinates to HttpService
 	private void sendPosition(Location location) {
 		if (!isSafeToUpdate()) {
@@ -294,5 +276,6 @@ public class WeatherService extends Service {
 		removeLocationListener();
 		unregisterReceiver(mReceiver);
 		cancelAlarm();
+		mNotification.unregister();
 	}
 }

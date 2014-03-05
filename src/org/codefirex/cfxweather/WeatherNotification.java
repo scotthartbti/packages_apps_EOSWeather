@@ -34,6 +34,10 @@ public class WeatherNotification implements WeatherListener {
 		mAdapter.startUpdates();
 	}
 
+	void unregister() {
+		mAdapter.stopUpdates();
+	}
+
 	private class SettingsObserver extends ContentObserver {
 		public SettingsObserver(Handler handler) {
 			super(handler);
