@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* //device/apps/common/assets/res/any/strings.xml
+**
+** Copyright 2006, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources>
+
+    <string name="on">An</string>
+    <string name="off">Aus</string>
+    <string name="cancel">Abbrechen</string>
+    <string name="apply">Übernehmen</string>
+    <string name="settings">Einstellungen</string>
+    <string name="cfx_weather">CFX Wetter</string>
+    <string name="enable">Aktivieren</string>
+    <string name="one_minute">1 Minute (Debug)</string>
+    <string name="fifteen_minutes">15 Minuten</string>
+    <string name="thirty_minutes">30 Minuten</string>
+    <string name="one_hour">1 Stunde</string>
+    <string name="three_hours">3 Stunden</string>
+    <string name="six_hours">6 Stunden</string>
+    <string name="weather_refresh_interval_title">Aktualisierungsintervall</string>
+    <string name="weather_fahrenheit">Fahrenheit</string>
+    <string name="weather_celsius">Celsius</string>
+    <string name="weather_temp_scale_title">Temperatureinheit</string>
+    <string name="refresh">Aktualisieren</string>
+    <string name="location_mode_title">Standortmodus</string>
+    <string name="location_network">Netzwerk</string>
+    <string name="location_fused">System entscheiden lassen</string>
+    <string name="location_passive">Passives GPS</string>
+    <string name="location_gps">GPS</string>
+    <string name="wind">Wind</string>
+    <string name="wind_chill">Ausgewogen</string>
+    <string name="wind_speed">Geschwindigkeit</string>
+    <string name="wind_direction">Richtung</string>
+    <string name="conditions">Zustände</string>
+    <string name="humidity">Feuchtigkeit</string>
+    <string name="pressure">Luftdruck</string>
+    <string name="visibility">Sichtbarkeit</string>
+    <string name="credits">Credits</string>
+    <string name="credits_deviant_art">deviantART</string>
+    <string name="credits_icon_name">SILq Weather Icons</string>
+    <string name="credits_icon_author">by d3stroy</string>
+    <string name="credits_icon_license">Verwendet unter der Creative Commons License</string>
+    <string name="credits_weather_service">Wetter Service</string>
+    <string name="credits_yahoo">Ermöglicht durch Yahoo!</string>
+    <string name="credits_xml_name">XML parsing von zh-wang</string>
+
+    <!-- Condition strings based on condition code integer from yahoo servers
+         It seems yahoo servers only provide the forecast text in english
+         so we have to handle translations
+    -->
+    <string name="tornado">Tornado</string>
+    <string name="tropical_storm">Tropensturm</string>
+    <string name="hurricane">Hurrikan</string>
+    <string name="severe_thunderstorms">Einige Gewitter</string>
+    <string name="thunderstorms">Gewitter</string>
+    <string name="mixed_rain_snow">Regen und Schnee</string>
+    <string name="mixed_rain_sleet">Schneeregen</string>
+    <string name="mixed_snow_sleet">Schneeregen</string>
+    <string name="freezing_drizzle">Frost</string>
+    <string name="drizzle">Sprühregen</string>
+    <string name="freezing_rain">Hagel</string>
+    <string name="showers">Starker Regen</string>
+    <string name="snow_flurries">Schnee</string>
+    <string name="light_snow_showers">Leichte Schneeschauer</string>
+    <string name="blowing_snow">Schneesturm</string>
+    <string name="snow">Schnee</string>
+    <string name="hail">Hagel</string>
+    <string name="sleet">Schneeregen</string>
+    <string name="dust">Staub</string>
+    <string name="foggy">Nebel</string>
+    <string name="haze">Dunst</string>
+    <string name="smoky">Smog</string>
+    <string name="blustery">Stürmisch</string>
+    <string name="windy">Windig</string>
+    <string name="cold">Kalt</string>
+    <string name="cloudy">Bewölkt</string>
+    <string name="mostly_cloudy">Mehrheitlich bewölkt</string>
+    <string name="partly_cloudy">Teilweise bewölkt</string>
+    <string name="clear">Klar</string>
+    <string name="sunny">Sonnig</string>
+    <string name="fair">Ausgeglichen</string>
+    <string name="mixed_rain_hail">Regen und Hagel</string>
+    <string name="hot">Heiß</string>
+    <string name="isolated_thunderstorms">Vereinzelte Gewitter</string>
+    <string name="scattered_thunderstorms">Vermehrte Gewitter</string>
+    <string name="scattered_showers">Vermehrte Regenschauer</string>
+    <string name="heavy_snow">Schwerer Schneefall</string>
+    <string name="scattered_snow_showers">Vermehrter Schneefall</string>
+    <string name="thundershowers">Gewitterregen</string>
+    <string name="snow_showers">Schneeschauer</string>
+    <string name="isolated_thundershowers">Vereinzelte Gewitterstürme</string>
+    <string name="not_available">Nicht verfügbar</string>
+
+</resources>
