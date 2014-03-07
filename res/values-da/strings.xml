@@ -1,0 +1,107 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* //device/apps/common/assets/res/any/strings.xml
+**
+** Copyright 2006, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources>
+    <string name="on">Til</string>
+    <string name="off">Fra</string>
+    <string name="cancel">Fortyd</string>
+    <string name="apply">Anvend</string>
+    <string name="settings">Indstillinger</string>
+    <string name="cfx_weather">CFX Vejr</string>
+    <string name="enable">Aktiver</string>
+    <string name="one_minute">1 Minut (debug)</string>
+    <string name="fifteen_minutes">15 Minuter</string>
+    <string name="thirty_minutes">30 Minuter</string>
+    <string name="one_hour">1 Time</string>
+    <string name="three_hours">3 Timer</string>
+    <string name="six_hours">6 Timer</string>
+    <string name="weather_refresh_interval_title">Opdatering interval</string>
+    <string name="weather_fahrenheit">Fahrenheit</string>
+    <string name="weather_celsius">Celsius</string>
+    <string name="weather_temp_scale_title">Temperatur skala</string>
+    <string name="refresh">Opdater</string>
+    <string name="location_mode_title">Lokation indstilling</string>
+    <string name="location_network">Netværk</string>
+    <string name="location_fused">Lad systemet bestemme</string>
+    <string name="location_passive">Passiv GPS</string>
+    <string name="location_gps">GPS</string>
+    <string name="wind">Vind</string>
+    <string name="wind_chill">Kuldeindeks</string>
+    <string name="wind_speed">Vind hastighed</string>
+    <string name="wind_direction">Vind retning</string>
+    <string name="conditions">Tilstand</string>
+    <string name="humidity">Fugtighed</string>
+    <string name="pressure">Tryk</string>
+    <string name="visibility">Sigtbarhed</string>
+    <string name="credits">Credits</string>
+    <string name="credits_deviant_art">deviantART</string>
+    <string name="credits_icon_name">SILq Weather Icons</string>
+    <string name="credits_icon_author">af d3stroy</string>
+    <string name="credits_icon_license">Brugt under Creative Commons Licens</string>
+    <string name="credits_weather_service">Weather Service</string>
+    <string name="credits_yahoo">Powered by Yahoo!</string>
+    <string name="credits_xml_name">XML parsing by zh-wang</string>
+
+    <!-- Condition strings based on condition code integer from yahoo servers
+         It seems yahoo servers only provide the forecast text in english
+         so we have to handle translations
+    -->
+    <string name="tornado">Tornado</string>
+    <string name="tropical_storm">Tropisk storm</string>
+    <string name="hurricane">Orkan</string>
+    <string name="severe_thunderstorms">Kraftig tordenvejr</string>
+    <string name="thunderstorms">Tordenvejr</string>
+    <string name="mixed_rain_snow">Blandet regn og sne</string>
+    <string name="mixed_rain_sleet">Blandet regn og slud</string>
+    <string name="mixed_snow_sleet">Blandet sne og slud</string>
+    <string name="freezing_drizzle">Frost</string>
+    <string name="drizzle">Støvregn</string>
+    <string name="freezing_rain">Isslag</string>
+    <string name="showers">Kraftig regn</string>
+    <string name="snow_flurries">Snebyger</string>
+    <string name="light_snow_showers">Lette snebyger</string>
+    <string name="blowing_snow">Snefygning</string>
+    <string name="snow">Sne</string>
+    <string name="hail">Hagl</string>
+    <string name="sleet">Slud</string>
+    <string name="dust">Støv</string>
+    <string name="foggy">Tåget</string>
+    <string name="haze">Haze</string>
+    <string name="smoky">Røg</string>
+    <string name="blustery">Storm</string>
+    <string name="windy">Blæ¦svejr</string>
+    <string name="cold">Koldt</string>
+    <string name="cloudy">Skyet</string>
+    <string name="mostly_cloudy">Mest skyet</string>
+    <string name="partly_cloudy">Delvist skyet</string>
+    <string name="clear">Klar</string>
+    <string name="sunny">Solrigt</string>
+    <string name="fair">Balancert</string>
+    <string name="mixed_rain_hail">Blandet regn og hagl</string>
+    <string name="hot">Varmt</string>
+    <string name="isolated_thunderstorms">Tordenbyger</string>
+    <string name="scattered_thunderstorms">Kraftig tordenvejr</string>
+    <string name="scattered_showers">Kraftig byger</string>
+    <string name="heavy_snow">Kraftig sne</string>
+    <string name="scattered_snow_showers">Kraftig snebyger</string>
+    <string name="thundershowers">Tordenvejr</string>
+    <string name="snow_showers">Snebyger</string>
+    <string name="isolated_thundershowers">Delvist tordenvejr</string>
+    <string name="not_available">Ikke tilgængelig</string>
+</resources>
