@@ -29,10 +29,7 @@
 
             <TextView
                 android:id="@+id/current_weather_text"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="24sp"
-                android:textStyle="bold" />
+                style="@style/TextAppearance.ForecastView.CurrentWeatherText" />
         </LinearLayout>
 
         <View
@@ -51,10 +48,7 @@
 
             <TextView
                 android:id="@+id/current_city"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:maxLines="1"
-                android:textSize="24sp" />
+                style="@style/TextAppearance.ForecastView.CurrentWeatherText" />
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -64,25 +58,22 @@
 
                 <TextView
                     android:id="@+id/current_temperature"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.ForecastView.Bold"
                     android:layout_marginRight="10dp"
-                    android:textSize="36sp"
-                    android:textStyle="bold" />
+                    android:textSize="@dimen/forecast_current_temp" />
 
                 <TextView
                     android:id="@+id/current_temperature_high"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    style="@style/TextAppearance.ForecastView.CurrentWeatherText"
                     android:layout_marginRight="@dimen/forecast_small_temp_margin"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/forecast_current_hi_lo_temp" />
 
                 <TextView
                     android:id="@+id/current_temperature_low"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="@dimen/forecast_small_temp_margin"
-                    android:textSize="16sp" />
+                    android:textSize="@dimen/forecast_current_hi_lo_temp" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
@@ -105,10 +96,7 @@
 
             <TextView
                 android:id="@+id/day_one_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/TextAppearance.ForecastView.DayHeaderText" />
 
             <ImageView
                 android:id="@+id/day_one_weather"
@@ -122,17 +110,13 @@
 
                 <TextView
                     android:id="@+id/day_one_high_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginRight="@dimen/forecast_small_temp_margin" />
 
                 <TextView
                     android:id="@+id/day_one_low_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginLeft="@dimen/forecast_small_temp_margin" />
             </LinearLayout>
         </LinearLayout>
 
@@ -152,10 +136,7 @@
 
             <TextView
                 android:id="@+id/day_two_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/TextAppearance.ForecastView.DayHeaderText" />
 
             <ImageView
                 android:id="@+id/day_two_weather"
@@ -169,17 +150,13 @@
 
                 <TextView
                     android:id="@+id/day_two_high_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginRight="@dimen/forecast_small_temp_margin" />
 
                 <TextView
                     android:id="@+id/day_two_low_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginLeft="@dimen/forecast_small_temp_margin" />
             </LinearLayout>
         </LinearLayout>
 
@@ -199,10 +176,7 @@
 
             <TextView
                 android:id="@+id/day_three_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/TextAppearance.ForecastView.DayHeaderText" />
 
             <ImageView
                 android:id="@+id/day_three_weather"
@@ -216,17 +190,13 @@
 
                 <TextView
                     android:id="@+id/day_three_high_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginRight="@dimen/forecast_small_temp_margin" />
 
                 <TextView
                     android:id="@+id/day_three_low_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginLeft="@dimen/forecast_small_temp_margin" />
             </LinearLayout>
         </LinearLayout>
 
@@ -246,10 +216,7 @@
 
             <TextView
                 android:id="@+id/day_four_day"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:textSize="18sp"
-                android:textStyle="bold" />
+                style="@style/TextAppearance.ForecastView.DayHeaderText" />
 
             <ImageView
                 android:id="@+id/day_four_weather"
@@ -263,17 +230,13 @@
 
                 <TextView
                     android:id="@+id/day_four_high_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginRight="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginRight="@dimen/forecast_small_temp_margin" />
 
                 <TextView
                     android:id="@+id/day_four_low_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_marginLeft="@dimen/forecast_small_temp_margin"
-                    android:textSize="12sp" />
+                    style="@style/TextAppearance.ForecastView.HiLowText"
+                    android:layout_marginLeft="@dimen/forecast_small_temp_margin" />
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
