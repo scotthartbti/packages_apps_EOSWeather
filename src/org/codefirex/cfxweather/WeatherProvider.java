@@ -20,6 +20,7 @@ import android.provider.MediaStore;
 
 public class WeatherProvider extends ContentProvider {
     private static final Map<Integer, ResInfo> weather_map = new HashMap<Integer, ResInfo>();
+    private static final Map<Integer, DayInfo> day_map = new HashMap<Integer, DayInfo>();
 
 	static {
 		weather_map.put(0, new ResInfo(R.string.tornado, "tornado"));
@@ -71,6 +72,14 @@ public class WeatherProvider extends ContentProvider {
 		weather_map.put(46, new ResInfo(R.string.snow_showers, "rain_snow"));
 		weather_map.put(47, new ResInfo(R.string.isolated_thundershowers, "rain_thunder"));
 		weather_map.put(48, new ResInfo(R.string.not_available, "sunny"));
+
+		day_map.put(0, new DayInfo(R.string.mon_short, R.string.mon_long));
+		day_map.put(1, new DayInfo(R.string.tue_short, R.string.tue_long));
+		day_map.put(2, new DayInfo(R.string.wed_short, R.string.wed_long));
+		day_map.put(3, new DayInfo(R.string.thur_short, R.string.thur_long));
+		day_map.put(4, new DayInfo(R.string.fri_short, R.string.fri_long));
+		day_map.put(5, new DayInfo(R.string.sat_short, R.string.sat_long));
+		day_map.put(6, new DayInfo(R.string.sun_short, R.string.sun_long));
 	}
 
 	private static class ResInfo {
@@ -81,6 +90,50 @@ public class WeatherProvider extends ContentProvider {
 			this.textRes = textRes;
 			this.iconName = iconName;
 		}
+	}
+
+	private static class DayInfo {
+		int short_day;
+		int long_day;
+
+		public DayInfo(int short_day, int long_day) {
+			this.short_day = short_day;
+			this.long_day = long_day;
+		}
+
+		static int getKeyForDay(String day) {
+			if (day.startsWith("mon") || day.startsWith("Mon")) {
+				return 0;
+			} else if (day.startsWith("tue") || day.startsWith("Tue")) {
+			    return 1;
+			} else if (day.startsWith("wed") || day.startsWith("Wed")) {
+			    return 2;
+			} else if (day.startsWith("thu") || day.startsWith("Thu")) {
+			    return 3;
+			} else if (day.startsWith("fri") || day.startsWith("Fri")) {
+			    return 4;
+			} else if (day.startsWith("sat") || day.startsWith("Sat")) {
+			    return 5;
+			} else if (day.startsWith("sun") || day.startsWith("Sun")) {
+			    return 6;
+			} else {
+				// what a strange day from the Yahoo! server lolwut
+				// we'll call it monday
+				return 0;
+			}
+		}
+	}
+
+	static String getLongDay(Context ctx, String day) {
+		int key = DayInfo.getKeyForDay(day);
+		DayInfo dayInfo = day_map.get(key);
+		return ctx.getString(dayInfo.long_day);
+	}
+
+	static String getShortDay(Context ctx, String day) {
+		int key = DayInfo.getKeyForDay(day);
+		DayInfo dayInfo = day_map.get(key);
+		return ctx.getString(dayInfo.short_day);
 	}
 
 	public static final String PACKAGE_NAME = "org.codefirex.cfxweather";

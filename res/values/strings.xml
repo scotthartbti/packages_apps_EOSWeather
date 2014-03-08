@@ -106,4 +106,20 @@
     <string name="isolated_thundershowers">Isolated thundershowers</string>
     <string name="not_available">not available</string>
 
+    <!-- Days of the week translatable, short and full -->
+    <string name="mon_long">Monday</string>
+    <string name="tue_long">Tuesday</string>
+    <string name="wed_long">Wednesday</string>
+    <string name="thur_long">Thursday</string>
+    <string name="fri_long">Friday</string>
+    <string name="sat_long">Saturday</string>
+    <string name="sun_long">Sunday</string>
+    <string name="mon_short">Mon</string>
+    <string name="tue_short">Tue</string>
+    <string name="wed_short">Wed</string>
+    <string name="thur_short">Thu</string>
+    <string name="fri_short">Fri</string>
+    <string name="sat_short">Sat</string>
+    <string name="sun_short">Sun</string>
+
 </resources>

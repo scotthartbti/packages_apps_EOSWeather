@@ -186,8 +186,8 @@ public class YahooWeatherUtils {
 				forecast1ConditionNode.getAttributes().getNamedItem("text").getNodeValue());
 		forecastInfo.setForecastDate(
 				forecast1ConditionNode.getAttributes().getNamedItem("date").getNodeValue());
-		forecastInfo.setForecastDay(
-				forecast1ConditionNode.getAttributes().getNamedItem("day").getNodeValue());
+		String day = forecast1ConditionNode.getAttributes().getNamedItem("day").getNodeValue();
+		forecastInfo.setForecastDay(WeatherProvider.getShortDay(mContext, day));
 		forecastInfo.setForecastTempHighF(forecast1ConditionNode.getAttributes().getNamedItem("high").getNodeValue());
 		forecastInfo.setForecastTempLowF(forecast1ConditionNode.getAttributes().getNamedItem("low").getNodeValue());
 	}
