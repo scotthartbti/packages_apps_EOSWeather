@@ -74,6 +74,18 @@
     <style name="TextAppearance.ForecastView.HiLowText" parent="@style/TextAppearance.ForecastView">
         <item name="android:textSize">@dimen/forecast_hi_lo_text</item>
     </style>
+    
+    <style name="WeatherIcon" >
+         <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:adjustViewBounds">true</item>
+    </style>
+
+    <style name="WeatherIcon.Notification" parent="@style/WeatherIcon" >
+        <item name="android:maxWidth">@dimen/notification_small_icon</item>
+        <item name="android:maxHeight">@dimen/notification_small_icon</item>
+        <item name="android:scaleType">fitXY</item>
+    </style>
 
 </resources>
 

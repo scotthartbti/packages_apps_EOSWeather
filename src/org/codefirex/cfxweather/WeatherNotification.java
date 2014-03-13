@@ -25,6 +25,8 @@ public class WeatherNotification implements WeatherListener {
 	boolean mViewEnabled = false;
 	boolean mServiceEnabled = false;
 
+	private static final boolean ADD_SYMBOL = true;
+
 	public WeatherNotification(Context context) {
 		mContext = context;
 		mHandler = new Handler();
@@ -118,46 +120,47 @@ public class WeatherNotification implements WeatherListener {
 		contentView
 				.setImageViewBitmap(R.id.n_current_weather, WeatherInfo
 						.getBitmapFromProvider(mContext, mInfo.mCurrentCode));
+		contentView.setTextViewText(R.id.n_current_temp, addSymbol(mInfo.getCurrentTemp()));
 
 		contentView.setImageViewBitmap(R.id.n_day_one_weather, WeatherInfo
 				.getBitmapFromProvider(mContext, mInfo.getForecastInfo1()
 						.getForecastCode()));
 		contentView.setTextViewText(R.id.n_day_one_day, mInfo
 				.getForecastInfo1().getForecastDay());
-		contentView.setTextViewText(R.id.n_day_one_high_text, WeatherInfo
-				.addSymbol((mInfo.getForecastInfo1().getForecastHighTemp())));
-		contentView.setTextViewText(R.id.n_day_one_low_text, WeatherInfo
-				.addSymbol((mInfo.getForecastInfo1().getForecastLowTemp())));
+		contentView.setTextViewText(R.id.n_day_one_high_text, addSymbol(mInfo
+				.getForecastInfo1().getForecastHighTemp()));
+		contentView.setTextViewText(R.id.n_day_one_low_text, addSymbol(mInfo
+				.getForecastInfo1().getForecastLowTemp()));
 
 		contentView.setImageViewBitmap(R.id.n_day_two_weather, WeatherInfo
 				.getBitmapFromProvider(mContext, mInfo.getForecastInfo2()
 						.getForecastCode()));
 		contentView.setTextViewText(R.id.n_day_two_day, mInfo
 				.getForecastInfo2().getForecastDay());
-		contentView.setTextViewText(R.id.n_day_two_high_text, WeatherInfo
-				.addSymbol(mInfo.getForecastInfo2().getForecastHighTemp()));
-		contentView.setTextViewText(R.id.n_day_two_low_text, WeatherInfo
-				.addSymbol(mInfo.getForecastInfo2().getForecastLowTemp()));
+		contentView.setTextViewText(R.id.n_day_two_high_text, addSymbol(mInfo
+				.getForecastInfo2().getForecastHighTemp()));
+		contentView.setTextViewText(R.id.n_day_two_low_text, addSymbol(mInfo
+				.getForecastInfo2().getForecastLowTemp()));
 
 		contentView.setImageViewBitmap(R.id.n_day_three_weather, WeatherInfo
 				.getBitmapFromProvider(mContext, mInfo.getForecastInfo3()
 						.getForecastCode()));
 		contentView.setTextViewText(R.id.n_day_three_day, mInfo
 				.getForecastInfo3().getForecastDay());
-		contentView.setTextViewText(R.id.n_day_three_high_text, WeatherInfo
-				.addSymbol(mInfo.getForecastInfo3().getForecastHighTemp()));
-		contentView.setTextViewText(R.id.n_day_three_low_text, WeatherInfo
-				.addSymbol(mInfo.getForecastInfo3().getForecastLowTemp()));
+		contentView.setTextViewText(R.id.n_day_three_high_text, addSymbol(mInfo
+				.getForecastInfo3().getForecastHighTemp()));
+		contentView.setTextViewText(R.id.n_day_three_low_text, addSymbol(mInfo
+				.getForecastInfo3().getForecastLowTemp()));
 
 		contentView.setImageViewBitmap(R.id.n_day_four_weather, WeatherInfo
 				.getBitmapFromProvider(mContext, mInfo.getForecastInfo4()
 						.getForecastCode()));
 		contentView.setTextViewText(R.id.n_day_four_day, mInfo
 				.getForecastInfo4().getForecastDay());
-		contentView.setTextViewText(R.id.n_day_four_high_text, WeatherInfo
-				.addSymbol(mInfo.getForecastInfo4().getForecastHighTemp()));
-		contentView.setTextViewText(R.id.n_day_four_low_text, WeatherInfo
-				.addSymbol(mInfo.getForecastInfo4().getForecastLowTemp()));
+		contentView.setTextViewText(R.id.n_day_four_high_text, addSymbol(mInfo
+				.getForecastInfo4().getForecastHighTemp()));
+		contentView.setTextViewText(R.id.n_day_four_low_text, addSymbol(mInfo
+				.getForecastInfo4().getForecastLowTemp()));
 
 		mForecastView = contentView;
 
@@ -171,5 +174,11 @@ public class WeatherNotification implements WeatherListener {
 		builder.setContent(mForecastView);
 
 		mNotificationManager.notify(1, builder.build());
+	}
+
+	String addSymbol(String s) {
+		if (ADD_SYMBOL)
+			return WeatherInfo.addSymbol(s);
+		return s;
 	}
 }

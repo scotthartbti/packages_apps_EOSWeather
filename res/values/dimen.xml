@@ -15,6 +15,14 @@
 	<dimen name="forecast_current_text_min">18sp</dimen>
 	<dimen name="forecast_day_header">18sp</dimen>
 	<dimen name="forecast_hi_lo_text">12sp</dimen>
+	
+	<dimen name="notification_padding">10dp</dimen>
+	<dimen name="notification_large_icon">40dp</dimen>
+	<dimen name="notification_curent_temp">14sp</dimen>
+	<dimen name="notification_small_icon">36dp</dimen>
+	<dimen name="notification_day_header">14sp</dimen>
+	<dimen name="notification_hi_lo_text">10sp</dimen>
+	<dimen name="notification_hi_lo_margin">4dp</dimen>
 
     <dimen name="settings_side_margin">@*android:dimen/preference_fragment_padding_side</dimen>
 </resources>
