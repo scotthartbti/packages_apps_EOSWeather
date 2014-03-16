@@ -1,7 +1,12 @@
 package org.codefirex.cfxweather;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.InputStream;
 import java.util.Calendar;
+import java.util.Set;
 
+import org.codefirex.cfxweather.ResourceMaps.ResInfo;
 import org.codefirex.utils.WeatherAdapter;
 
 import android.app.AlarmManager;
@@ -16,6 +21,7 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Binder;
 import android.os.Bundle;
 import android.os.Handler;
@@ -67,7 +73,47 @@ public class WeatherService extends Service {
 		public void onStatusChanged(String provider, int status,
 				Bundle extras) {
 		}
-	};	
+	};
+
+	class CacheIcon extends AsyncTask<Void, Void, Void> {
+
+		private Context mContext;
+
+		public CacheIcon(Context ctx) {
+			mContext = ctx;
+		}
+
+		@Override
+		protected Void doInBackground(Void... params) {
+			Set<Integer> set = ResourceMaps.weather_map.keySet();
+			for (Integer i : set) {
+				ResInfo info = ResourceMaps.weather_map.get(i);
+				String filename = info.iconName + ".png";
+				File f = new File(mContext.getCacheDir() + "/" + filename);
+				InputStream is;
+				try {
+					if (!f.exists()) {
+						is = mContext.getAssets().open(filename);
+						int size = is.available();
+						byte[] buffer = new byte[size];
+						is.read(buffer);
+						is.close();
+						FileOutputStream fos = new FileOutputStream(f);
+						fos.write(buffer);
+						fos.close();
+					}
+				} catch (Exception e) {
+					throw new RuntimeException(e);
+				}
+			}
+			return null;
+		}
+
+	    @Override
+	    protected void onPostExecute(Void voidz) {
+			sendAdapterBroadcast(mEnabled ? WeatherAdapter.STATE_ON : WeatherAdapter.STATE_OFF);	    	
+	    }
+	}
 
 	private BroadcastReceiver mReceiver = new BroadcastReceiver() {
 		@Override
@@ -153,7 +199,8 @@ public class WeatherService extends Service {
 
 		mEnabled = WeatherPrefs.getEnabled(this);
 		mNotification = new WeatherNotification(this);
-		sendAdapterBroadcast(mEnabled ? WeatherAdapter.STATE_ON : WeatherAdapter.STATE_OFF);
+
+		new CacheIcon(this).execute();
 
 		// create pending intent to fire when alarm is triggered
 		mAlarmPending = PendingIntent.getBroadcast(this, 0, new Intent(
