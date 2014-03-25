@@ -6,6 +6,7 @@ import java.io.FileOutputStream;
 import java.io.InputStream;
 
 import org.codefirex.cfxweather.ResourceMaps.ResInfo;
+import org.codefirex.utils.WeatherInfo;
 
 import android.content.ContentProvider;
 import android.content.ContentValues;
@@ -51,7 +52,10 @@ public class WeatherProvider extends ContentProvider {
 		Object[] row;
 		if (uri.equals(DATA_URI)) {
 			MatrixCursor result1 = new MatrixCursor(projection);
-			Bundle b = WeatherPrefs.getBundleFromPrefs(getContext());
+			WeatherInfo info = WeatherPrefs.getInfoFromPrefs(getContext());
+			Bundle b = new Bundle();
+			b.putParcelable(WeatherInfo.WEATHER_INFO_KEY, info);
+			b.putBoolean(WeatherInfo.WEATHER_STATE_KEY, WeatherPrefs.getEnabled(getContext()));
 			row = new Object[projection.length];
 			for (int i = 0; i < projection.length; i++) {
 				if (projection[i]
