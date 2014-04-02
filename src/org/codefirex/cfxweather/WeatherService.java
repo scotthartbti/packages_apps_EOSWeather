@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.codefirex.cfxweather.ResourceMaps.ResInfo;
 import org.codefirex.utils.WeatherAdapter;
+import org.codefirex.utils.WeatherInfo;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -59,7 +60,7 @@ public class WeatherService extends Service {
 
 	private static final long MINUTE_MULTIPLE = (1000 * 60);
 
-	private LocationListener mNetworkLocationListener = new LocationListener() {
+	private LocationListener mLocationListener = new LocationListener() {
 		public void onLocationChanged(Location location) {
 			sendPosition(location);
 		}
@@ -219,9 +220,26 @@ public class WeatherService extends Service {
 
 	private void resetLocationListener() {
 		removeLocationListener();
-		mLocationManager.requestLocationUpdates(
-				WeatherPrefs.getLocationMode(this), 0, 0,
-				mNetworkLocationListener);
+		mLocationManager.requestLocationUpdates(getBestLocationMode(), 0, 0,
+				mLocationListener);
+	}
+
+	private String getBestLocationMode() {
+		String pref = WeatherPrefs.getLocationMode(this);
+		if (isPreferedLocationAvailable(pref)) {
+			return pref;
+		} else {
+			return LocationManager.PASSIVE_PROVIDER;
+		}
+	}
+
+	private boolean isPreferedLocationAvailable(String pref) {
+		boolean preferedAvailable = false;
+		try {
+			preferedAvailable = mLocationManager.isProviderEnabled(pref);
+		} catch (Exception e) {
+		}
+		return preferedAvailable;
 	}
 
 	private boolean isSafeToUpdate() {
@@ -236,7 +254,7 @@ public class WeatherService extends Service {
 
 	private void removeLocationListener() {
 		sendAdapterBroadcast(WeatherAdapter.STATE_REFRESHING);
-		mLocationManager.removeUpdates(mNetworkLocationListener);
+		mLocationManager.removeUpdates(mLocationListener);
 	}
 
 	private void resetAlarm() {
@@ -265,11 +283,27 @@ public class WeatherService extends Service {
 		alarm.cancel(mAlarmPending);
 	}
 
+	private boolean isGpsLocationAvailable() {
+		boolean hasGps = false;
+		try {
+			hasGps = mLocationManager.isProviderEnabled(LocationManager.GPS_PROVIDER);
+		} catch (Exception e) {
+		}
+		return hasGps;
+	}	
+
+	private boolean isNetworkLocationAvailable() {
+		boolean hasNetwork = false;
+		try {
+			hasNetwork = mLocationManager.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		} catch (Exception e) {
+		}
+		return hasNetwork;
+	}
+
 	private boolean isLocDisabled() {
-		return !mLocationManager
-				.isProviderEnabled(LocationManager.GPS_PROVIDER)
-				&& !mLocationManager
-						.isProviderEnabled(LocationManager.NETWORK_PROVIDER);
+		return !isGpsLocationAvailable()
+				&& !isNetworkLocationAvailable();
 	}
 
 	// send coordinates to HttpService
