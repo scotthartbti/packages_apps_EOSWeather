@@ -5,7 +5,7 @@ LOCAL_MODULE_TAGS := optional
 
 LOCAL_SRC_FILES := $(call all-subdir-java-files)
 
-LOCAL_PACKAGE_NAME := CFXWeather
+LOCAL_PACKAGE_NAME := EOSWeather
 LOCAL_CERTIFICATE := platform
 
 include $(BUILD_PACKAGE)
