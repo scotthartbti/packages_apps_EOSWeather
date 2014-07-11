@@ -24,6 +24,7 @@ public class WeatherNotification implements WeatherListener {
 	Handler mHandler;
 	boolean mViewEnabled = false;
 	boolean mServiceEnabled = false;
+        boolean mStatusbarIconHide = false;
 
 	private static final boolean ADD_SYMBOL = true;
 
@@ -50,6 +51,9 @@ public class WeatherNotification implements WeatherListener {
 			resolver.registerContentObserver(
 					Settings.System.getUriFor("cfx_weather_notification"),
 					false, this);
+                        resolver.registerContentObserver(
+					Settings.System.getUriFor("cfx_weather_icon"),
+					false, this);
 			onChange(true);
 		}
 
@@ -58,6 +62,8 @@ public class WeatherNotification implements WeatherListener {
 			ContentResolver resolver = mContext.getContentResolver();
 			mViewEnabled = Settings.AOKP.getBoolean(resolver,
 					"cfx_weather_notification", false);
+			mStatusbarIconHide = Settings.AOKP.getBoolean(resolver,
+					"cfx_weather_icon", false);
 			updateNotification();
 		}
 	}
@@ -168,10 +174,13 @@ public class WeatherNotification implements WeatherListener {
 		PendingIntent contentIntent = PendingIntent.getActivity(mContext, 0,
 				notificationIntent, 0);
 
-		builder.setSmallIcon(icon);
+                builder.setSmallIcon(icon);
 		builder.setOngoing(true);
 		builder.setContentIntent(contentIntent);
 		builder.setContent(mForecastView);
+                if (mStatusbarIconHide) {
+                    builder.setPriority(Notification.PRIORITY_MIN);
+                }
 
 		mNotificationManager.notify(1, builder.build());
 	}
