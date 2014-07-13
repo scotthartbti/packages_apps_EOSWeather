@@ -60,9 +60,9 @@ public class WeatherNotification implements WeatherListener {
 		@Override
 		public void onChange(boolean selfChange) {
 			ContentResolver resolver = mContext.getContentResolver();
-			mViewEnabled = Settings.AOKP.getBoolean(resolver,
+			mViewEnabled = Settings.System.getBoolean(resolver,
 					"cfx_weather_notification", false);
-			mStatusbarIconHide = Settings.AOKP.getBoolean(resolver,
+			mStatusbarIconHide = Settings.System.getBoolean(resolver,
 					"cfx_weather_icon", false);
 			updateNotification();
 		}
