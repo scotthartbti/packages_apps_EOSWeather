@@ -1,0 +1,125 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!--
+/* //device/apps/common/assets/res/any/strings.xml
+**
+** Copyright 2006, The Android Open Source Project
+**
+** Licensed under the Apache License, Version 2.0 (the "License");
+** you may not use this file except in compliance with the License.
+** You may obtain a copy of the License at
+**
+**     http://www.apache.org/licenses/LICENSE-2.0
+**
+** Unless required by applicable law or agreed to in writing, software
+** distributed under the License is distributed on an "AS IS" BASIS,
+** WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+** See the License for the specific language governing permissions and
+** limitations under the License.
+*/
+-->
+<resources>
+
+    <string name="on">تشغيل</string>
+    <string name="off">إيقاف</string>
+    <string name="cancel">إلغاء</string>
+    <string name="apply">تطبيق</string>
+    <string name="settings">إعدادات</string>
+    <string name="cfx_weather">طقس CFX</string>
+    <string name="enable">تمكين</string>
+    <string name="one_minute">1 دقيقة ( تصحيح )</string>
+    <string name="fifteen_minutes">15 دقيقة</string>
+    <string name="thirty_minutes">30 دقيقة</string>
+    <string name="one_hour">1 ساعة</string>
+    <string name="three_hours">3 ساعات</string>
+    <string name="six_hours">6 ساعات</string>
+    <string name="weather_refresh_interval_title">الفاصل الزمني للتحديث</string>
+    <string name="weather_fahrenheit">فهرنهايت</string>
+    <string name="weather_celsius">مئوي</string>
+    <string name="weather_temp_scale_title">مقياس درجة الحرارة</string>
+    <string name="refresh">تحديث</string>
+    <string name="location_mode_title">وضع الموقع</string>
+    <string name="location_network">الشبكة</string>
+    <string name="location_fused">حسب النظام</string>
+    <string name="location_passive">GPS السلبي</string>
+    <string name="location_gps">GPS</string>
+    <string name="wind">رياح</string>
+    <string name="wind_chill">برد</string>
+    <string name="wind_speed">السرعة</string>
+    <string name="wind_direction">الاتجاه</string>
+    <string name="conditions">الحالات</string>
+    <string name="humidity">رطوبة</string>
+    <string name="pressure">الضغط</string>
+    <string name="visibility">الرؤية</string>
+    <string name="credits">الاعتمادات</string>
+    <string name="credits_deviant_art">deviantART</string>
+    <string name="credits_icon_name">SILq Weather Icons</string>
+    <string name="credits_icon_author">بواسطة d3stroy</string>
+    <string name="credits_icon_license">يستخدم تحت ترخيص Creative Commons</string>
+    <string name="credits_weather_service">خدمة الطقس</string>
+    <string name="credits_yahoo">مدعوم من ياهو !</string>
+    <string name="credits_xml_name">تحليل XML بواسطة zh-wang</string>
+
+    <!-- Condition strings based on condition code integer from yahoo servers
+         It seems yahoo servers only provide the forecast text in english
+         so we have to handle translations
+    -->
+    <string name="tornado">إعصار</string>
+    <string name="tropical_storm">عاصفة استوائية</string>
+    <string name="hurricane">إعصار مداري</string>
+    <string name="severe_thunderstorms">عواصف رعدية شديدة</string>
+    <string name="thunderstorms">عواصف رعدية</string>
+    <string name="mixed_rain_snow">أمطار وثلوج مختلطة</string>
+    <string name="mixed_rain_sleet">أمطار وصقيع مختلط</string>
+    <string name="mixed_snow_sleet">ثلوج وصقيع مختلط</string>
+    <string name="freezing_drizzle">رذاذ متجمد</string>
+    <string name="drizzle">رذاذ</string>
+    <string name="freezing_rain">أمطار متجمدة</string>
+    <string name="showers">زخات مطر</string>
+    <string name="snow_flurries">هبات ثلوج</string>
+    <string name="light_snow_showers">زخات ثلوج خفيفة</string>
+    <string name="blowing_snow">هبوب الثلج</string>
+    <string name="snow">ثلج</string>
+    <string name="hail">بَرَد</string>
+    <string name="sleet">مطر متجمد</string>
+    <string name="dust">غبار</string>
+    <string name="foggy">ضبابي</string>
+    <string name="haze">ضباب</string>
+    <string name="smoky">دخاني</string>
+    <string name="blustery">متهيج</string>
+    <string name="windy">عاصف</string>
+    <string name="cold">بارد</string>
+    <string name="cloudy">غائم</string>
+    <string name="mostly_cloudy">غائم كلياً</string>
+    <string name="partly_cloudy">غائم جزئياً</string>
+    <string name="clear">صافِ</string>
+    <string name="sunny">مشمس</string>
+    <string name="fair">معتدل</string>
+    <string name="mixed_rain_hail">أمطار وبَرَد مختلط</string>
+    <string name="hot">حار</string>
+    <string name="isolated_thunderstorms">عواصف رعدية متفرقة</string>
+    <string name="scattered_thunderstorms">عواصف رعدية متفرقة</string>
+    <string name="scattered_showers">زخات مطر متفرقة</string>
+    <string name="heavy_snow">ثلوج كثيفة</string>
+    <string name="scattered_snow_showers">زخات ثلوج متفرقة</string>
+    <string name="thundershowers">زخات مطر رعدية</string>
+    <string name="snow_showers">زخات ثلج</string>
+    <string name="isolated_thundershowers">زخات مطر رعدية معزولة</string>
+    <string name="not_available">غير متاح</string>
+
+    <!-- Days of the week translatable, short and full -->
+    <string name="mon_long">الإثنين</string>
+    <string name="tue_long">الثلاثاء</string>
+    <string name="wed_long">الأربعاء</string>
+    <string name="thur_long">الخميس</string>
+    <string name="fri_long">الجمعة</string>
+    <string name="sat_long">السبت</string>
+    <string name="sun_long">الأحد</string>
+    <string name="mon_short">الإثنين</string>
+    <string name="tue_short">الثلاثاء</string>
+    <string name="wed_short">الأربعاء</string>
+    <string name="thur_short">الخميس</string>
+    <string name="fri_short">الجمعة</string>
+    <string name="sat_short">السبت</string>
+    <string name="sun_short">الأحد</string>
+
+</resources>
